@@ -3,12 +3,9 @@ import requests
 # The correct URL to fetch VATSIM network data
 vatsim_url = "https://data.vatsim.net/v3/vatsim-data.json"
 
-vatsim_metar_url = "https://metar.vatsim.net/:" 
-
 # Fetch the data from the VATSIM URL
 response = requests.get(vatsim_url)
 
-response_metar = requests.get(vatsim_metar_url)
 
 
 # Parse the JSON response
@@ -44,22 +41,28 @@ def print_online_controllers():
         print(callsign)
 
 def get_metar_for_icao():
-  
-  icao_code = input("Enter airport ICAO code: ")
-  
-  metar = f"{response}{icao_code}"
-  
-  print(metar)
-  
-get_metar_for_icao()
+    icao_code = input("Enter the icao code for the airport you wish to check: ").upper()
+    metar_url = f"https://metar.vatsim.net/{icao_code}"
+    
+    try:
+        response_metar = requests.get(metar_url)
+        
+        metar_data = response_metar.text
+        if "No METAR" not in metar_data:
+            print(f"METAR: {metar_data}")
+        else:
+            print(f"No METAR data found for {icao_code}")
+    except requests.exceptions.RequestException as e:
+        return f"Error fetching METAR: {e}"
 
 def main_program_loop():
 
     print(str("-" * 40))
     print("1. Print the number of online users\n"
-          "2. Print a list of online controllers\n")
+          "2. Print a list of online controllers\n"
+          "3. Get the METAR for a given airport\n")
 
-    choice = input('Choose an option: \n')
+    choice = input('Choose an option: 3')
 
     print(str("-" * 40))
 
@@ -71,6 +74,9 @@ def main_program_loop():
             break
         elif choice == "2":
             print_online_controllers()
+            break
+        elif choice == "3":
+            get_metar_for_icao()
             break
         else:
             break
