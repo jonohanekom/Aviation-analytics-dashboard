@@ -1,10 +1,15 @@
 import requests
 
 # The correct URL to fetch VATSIM network data
-url = "https://data.vatsim.net/v3/vatsim-data.json"
+vatsim_url = "https://data.vatsim.net/v3/vatsim-data.json"
 
-# Fetch the data from the URL
-response = requests.get(url)
+vatsim_metar_url = "https://metar.vatsim.net/:" 
+
+# Fetch the data from the VATSIM URL
+response = requests.get(vatsim_url)
+
+response_metar = requests.get(vatsim_metar_url)
+
 
 # Parse the JSON response
 data = response.json()
@@ -26,17 +31,27 @@ def online_controllers_count():
 
 # Access the list of online controllers and print them
 def print_online_controllers():
-    #list of acceptible suffex
-    controller_suffex = ["_DEL" , "_GND" , "_TWR" , "_APP" , "_DEP" , "_CTR" , "_FSS"]
+    #list of acceptable suffix
+    controller_suffix = ["_DEL" , "_GND" , "_TWR" , "_APP" , "_DEP" , "_CTR" , "_FSS"]
 
     # Extract the list of controllers and their callsigns
-    online_controllers = [controller['callsign'] for controller in data['controllers'] if any(controller['callsign'].endswith(s) for s in controller_suffex)]
+    online_controllers = [controller['callsign'] for controller in data['controllers'] if any(controller['callsign'].endswith(s) for s in controller_suffix)]
 
     online_controllers.sort()
 
     # Print the list of online controllers
     for callsign in online_controllers:
         print(callsign)
+
+def get_metar_for_icao():
+  
+  icao_code = input("Enter airport ICAO code: ")
+  
+  metar = f"{response}{icao_code}"
+  
+  print(metar)
+  
+get_metar_for_icao()
 
 def main_program_loop():
 
