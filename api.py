@@ -6,8 +6,6 @@ VATSIM_URL = "https://data.vatsim.net/v3/vatsim-data.json"
 # Fetch the data from the VATSIM URL
 response = requests.get(VATSIM_URL)
 
-
-
 # Parse the JSON response
 data = response.json()
 
@@ -72,13 +70,10 @@ def online_sup_count():
     for callsign in online_sup_count:
         print(callsign)
 
-import requests
-
-import requests
 
 def get_flights_for_icao(icao_code):
-    vatsim_url = "https://data.vatsim.net/v3/vatsim-data.json"  # Define the URL here
-    response = requests.get(vatsim_url)
+
+    response = requests.get(VATSIM_URL)
     data = response.json()
 
     # Extract the list of pilots
@@ -90,7 +85,7 @@ def get_flights_for_icao(icao_code):
     # Filter flights based on the ICAO code
     for pilot in online_pilots:
         flight_plan = pilot.get("flight_plan")
-        
+
         # Proceed only if flight_plan is not None
         if flight_plan:
             if flight_plan.get("arrival") == icao_code:
@@ -98,16 +93,12 @@ def get_flights_for_icao(icao_code):
                     "callsign": pilot.get("callsign"),
                     "departure": flight_plan.get("departure"),
                     "arrival": flight_plan.get("arrival"),
-                    "altitude": pilot.get("altitude"),
-                    "groundspeed": pilot.get("groundspeed")
                 })
             elif flight_plan.get("departure") == icao_code:
                 outbound_flights.append({
                     "callsign": pilot.get("callsign"),
                     "departure": flight_plan.get("departure"),
                     "arrival": flight_plan.get("arrival"),
-                    "altitude": pilot.get("altitude"),
-                    "groundspeed": pilot.get("groundspeed")
                 })
 
     # Print inbound flights
@@ -115,21 +106,22 @@ def get_flights_for_icao(icao_code):
     for flight in inbound_flights:
         print(f"Callsign: {flight['callsign']}\n"
               f"Departure: {flight['departure']}\n"
-              f"Arrival: {flight['arrival']}\n"
-              f"Altitude: {flight['altitude']} ft\n"
-              f"Groundspeed: {flight['groundspeed']} knots\n")
+              f"Arrival: {flight['arrival']}\n")
+
 
     # Print outbound flights
     print(f"\nOutbound flights from {icao_code}:")
     for flight in outbound_flights:
         print(f"Callsign: {flight['callsign']}\n"
               f"Departure: {flight['departure']}\n"
-              f"Arrival: {flight['arrival']}\n"
-              f"Altitude: {flight['altitude']} ft\n"
-              f"Groundspeed: {flight['groundspeed']} knots\n")
+              f"Arrival: {flight['arrival']}\n")
 
-    print(f"{len(inbound_flights)} flights inbound to {icao_code}")
-    print(f"{len(outbound_flights)} flights outbound from {icao_code}")
+    total_inbound_flights = len(outbound_flights) + len(inbound_flights)
+
+    print(f"{len(inbound_flights)} flights inbound to {icao_code}\n"
+            f"{len(outbound_flights)} flights outbound from {icao_code}\n"
+            f"Total flights: {total_inbound_flights}")
+
 
 
 
