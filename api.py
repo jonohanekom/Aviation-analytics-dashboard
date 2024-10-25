@@ -131,38 +131,34 @@ def get_flights_for_icao(icao_code):
 
 
 def main_program_loop():
-
-    print(str("-" * 40))
-    print("1. Print the number of online users\n"
-          "2. Print a list of online controllers\n"
-          "3. Get the METAR for a given airport\n"
-          "4. Print the callsigns of all online Supervisors\n"
-          "5. Get the flights for a given airport\n")
-
-    choice = input('Choose an option: ')
-
-    print(str("-" * 40))
-
     while True:
+        print("-" * 40)
+        print("1. Print the number of online users\n"
+              "2. Print a list of online controllers\n"
+              "3. Get the METAR for a given airport\n"
+              "4. Print the callsigns of all online Supervisors\n"
+              "5. Get the flights for a given airport\n"
+              "6. Exit")
+        choice = input('Choose an option: ')
+        print("-" * 40)
+
         if choice == "1":
             online_user_count()
             online_controllers_count()
             online_pilots_count()
-            break
         elif choice == "2":
             print_online_controllers()
-            break
         elif choice == "3":
             get_metar_for_icao()
-            break
         elif choice == "4":
             online_sup_count()
-            break
         elif choice == "5":
             icao_code = input("Enter the ICAO code for the airport: ").upper()
             get_flights_for_icao(icao_code)
+        elif choice == "6":
+            print("Exiting program.")
             break
         else:
-            break
+            print("Invalid choice. Please select a valid option.")
 
 main_program_loop()
