@@ -12,17 +12,20 @@ data = response.json()
 # Access the number of unique online users
 def online_user_count():
     online_users = data['general']['unique_users']
-    print(f"There are currently {online_users} users online.")
+    return str(online_users)
+    # print(f"There are currently {online_users} users online.")
 
 # Access the number of active pilots
 def online_pilots_count():
     online_pilots_count = len(data['pilots'])
-    print(f"{online_pilots_count} active pilots")
+    # print(f"{online_pilots_count} active pilots")
+    return str(online_pilots_count)
 
 # Access the number of active controllers
 def online_controllers_count():
     online_controllers_count = len(data["controllers"])
-    print(f"{online_controllers_count} active controllers")
+    # print(f"{online_controllers_count} active controllers")
+    return str(online_controllers_count)
 
 # Access the list of online controllers and print them
 def print_online_controllers():
@@ -68,7 +71,7 @@ def online_sup_count():
         print("There is no help coming your way, best of luck!")
 
     for callsign in online_sup_count:
-        print(callsign)
+        return callsign
 
 
 def get_flights_for_icao(icao_code):
@@ -121,39 +124,3 @@ def get_flights_for_icao(icao_code):
     print(f"{len(inbound_flights)} flights inbound to {icao_code}\n"
             f"{len(outbound_flights)} flights outbound from {icao_code}\n"
             f"Total flights: {total_inbound_flights}")
-
-
-
-
-def main_program_loop():
-    while True:
-        print("-" * 40)
-        print("1. Print the number of online users\n"
-              "2. Print a list of online controllers\n"
-              "3. Get the METAR for a given airport\n"
-              "4. Print the callsigns of all online Supervisors\n"
-              "5. Get the flights for a given airport\n"
-              "6. Exit")
-        choice = input('Choose an option: ')
-        print("-" * 40)
-
-        if choice == "1":
-            online_user_count()
-            online_controllers_count()
-            online_pilots_count()
-        elif choice == "2":
-            print_online_controllers()
-        elif choice == "3":
-            get_metar_for_icao()
-        elif choice == "4":
-            online_sup_count()
-        elif choice == "5":
-            icao_code = input("Enter the ICAO code for the airport: ").upper()
-            get_flights_for_icao(icao_code)
-        elif choice == "6":
-            print("Exiting program.")
-            break
-        else:
-            print("Invalid choice. Please select a valid option.")
-
-main_program_loop()
