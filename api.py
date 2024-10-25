@@ -61,10 +61,13 @@ def online_sup_count():
     online_sup_count = [controller['callsign'] for controller in data['controllers'] if any(controller['callsign'].endswith(s) for s in sup_suffix)]
 
     online_sup_count.sort()
-    mum_online_sups = len(online_sup_count)
-
-    print(f"There are currently {mum_online_sups} Supervisors online.")
-    print(f"In your time of need these are the supervisors online that will be ignoring your call for help:")
+    num_online_sups = len(online_sup_count)
+    
+    if num_online_sups > 0:
+        print(f"There are currently {num_online_sups} Supervisors online.")
+        print(f"In your time of need these are the supervisors online that will be ignoring your call for help:")
+    else:
+        print("There is no help coming your way, best of luck!")
 
     for callsign in online_sup_count:
         print(callsign)
